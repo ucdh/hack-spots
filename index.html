@@ -1,4 +1,13 @@
 <html>
+<!--to do:
+- add test to remove comma if no suburb?
+- check page layout - might need to rearrange to fit everything?
+- transfer info from csv to google sheet
+- clean up index.html and re-document
+--->
+
+
+
     <head>
         <title>Transitional City Map</title>
         <meta charset='utf-8'>
@@ -37,15 +46,17 @@
             <div id="map"></div>
         </div>
         <div class="container">
+			<!--<div id="descriptionField"></div> tried adding this in to put the description in a better place, but can't figure out the javascript to go with it, so it doesn't work. JM-->
             <input id="tableFilter" type="text" placeholder="filter by.."></input>
             <span class="clear button">Clear</span> <span class="resetMap button">Reset Map</span>
             <span class="noMatches">no matches</span>
             <div id="hackSpotsTable"></div>
         </div>
         <div id="info" class="container">
+			
             <h3>Contribute!</h3>
             <div id="theNumberofSpots"></div>
-            <p>This website is hooked up to <a href="https://docs.google.com/spreadsheets/d/1Y1cyBg-nJrQCax9kgX7LWYHjoZnrSMjWgrlhK-iNn78/pubhtml?gid=0&single=true" target="_blank">this Google Spreadsheet</a>, which I've shared, so click and add your favorite transitional city locations to the bottom of the list! For the map you'll need to <strong>get the lat and long</strong> of the spot, you can get that <a href="http://www.latlong.net/" target="_blank">here</a>. The locating of these places is helpful, so please try to fill out all the columns.</p>
+            <p>This website is hooked up to <a href="https://docs.google.com/spreadsheets/d/1Y1cyBg-nJrQCax9kgX7LWYHjoZnrSMjWgrlhK-iNn78/pubhtml" target="_blank">this Google Spreadsheet</a>, which I've shared, so click and add your favorite transitional city projects to the bottom of the list! For the map you'll need to <strong>get the lat and long</strong> of the spot, you can get that <a href="http://www.latlong.net/" target="_blank">here</a>. The locating of these places is helpful, so please try to fill out all the columns.</p>
 
             
 
@@ -59,34 +70,46 @@
 
     <script id="hackSpotsTable" type="text/html">
         <table>
-            <tr><th class="tHeader">Name</th><th class="tHeader">Address</th><th class="tHeader">City</th><th class="tHeader">State</th><th class="tHeader">Country</th><th class="">Elsewhere</th></tr>
+			<tr><th class="tHeader">Project Title</th><th class="tHeader">Created By</th><th class="tHeader">Address</th><th class="tHeader">Suburb</th><th class="tHeader">City</th></tr>
             {{#rows}}
-                <tr id="{{rowNumber}}" class="spotRow"><td>{{name}}</td><td>{{address}}</td><td>{{city}}</td><td>{{state}}</td><td>{{country}}</td><td><a class="button" href="https://maps.google.com/maps?q={{address}},{{city}},{{state}}" target="_blank">G Map</a> <a class="button" href="http://www.yelp.com/search?find_desc={{name}}&find_loc={{city}},{{state}}" target="_blank">Yelp</a></td></tr>
+                <tr id="{{rowNumber}}" class="spotRow"><td>{{projecttitle}}</td><td>{{createdby}}</td><td>{{address}}</td><td>{{suburb}}</td><td>{{city}}</td></tr> <!-- how this works: {{projecttitle}} looks for column with that heading on the google spreadsheet (JM)-->
             {{/rows}}
         </table>
     </script>
+	
 
     <script id="latestSpot" type="text/html">
         {{#rows}}
-            <h4 class="fauxButton">MOST RECENT SPOT</h4>
-            <h2>{{name}}</h2>
+            <h4 class="fauxButton">RECENTLY UPDATED</h4>
+            <h2>{{projecttitle}}</h2>
+			
             <p class="colorText">{{address}}<p>
-            <p class="colorText">{{city}}{{#state}}, {{state}}{{/state}}{{#postcode}}, {{postcode}}{{/postcode}}</p>
+            <p class="colorText">{{suburb}}{{#city}}, {{city}}{{/city}}{{#postcode}} {{postcode}}{{/postcode}}</p>
+	    <p>{{description}}</p>	
             <ul>
-                <li><span class="category">Wifi:</span> {{wifipassword}}</li>
-                <li><span class="category">Outlets:</span> {{outlets}}</li>
-                <li><span class="category">Couch:</span> {{couch}}</li>
-                <li><span class="category">Large Table:</span> {{largetable}}</li>
-                <li><span class="category">Outdoor Seating:</span> {{outdoorseating}}</li>
-                <li><span class="category">Brewing:</span> {{brewing}}</li>
-                <li><span class="category">Contributed By:</span> <a href="http://www.twitter.com/{{contributerstwitter}}" target="_blank">@{{contributerstwitter}}</a></li>
+				<li><span class="category">Created by:</span> {{createdby}}</li>
+				<li><span class="category">Also involved:</span> {{otherorgs}}</li>
+                <li><span class="category">Number of people involved:</span> {{numberofpeople}}</li>
+                <li><span class="category">Start date:</span> {{startdate}}</li>
+                <li><span class="category">Finish date:</span> {{finishdate}}</li>
+                <li><span class="category">Project duration:</span> {{duration}}</li>
+                <li><span class="category">Time taken to organise:</span> {{organisationtime}}</li>
+                <li><span class="category">Consents required:</span> {{consents}}</li>
+                <li><span class="category">Listing added by:</span> {{addedby}}</li>
             </ul>
             <ul>
-                <li><a href="https://maps.google.com/maps?q={{address}},{{city}},{{state}}" target="_blank">View in Google Maps</a></li>
-                <li><a href="http://www.yelp.com/search?find_desc={{name}}&find_loc={{city}},{{state}}" target="_blank">Find on Yelp</a></li>
+                <li><a href="https://maps.google.com/maps?q={{address}},{{suburb}},{{city}},New Zealand" target="_blank">View in Google Maps</a></li>
+                
             </ul>
         {{/rows}}
     </script>
+	
+	<!--<script id="descriptionField" type="text/html">
+        {{#rows}}
+			<h2>{{projecttitle}}</h2>
+			<p>{{description}}</p>
+        {{/rows}}
+    </script>  this is part of what I need to get the description field into a better place, but need to add more javascript below, and not sure what-->
 
     <script id="theNumberofSpots" type="text/html">
         <p><strong><span class="red-text">{{numberOfSpots}}</span> transitional city projects located</p>
@@ -94,21 +117,24 @@
 
     <script id="selectedSpot" type="text/html">
         {{#rows}}
-            <h4 class="fauxButton">SELECTED SPOT</h4>
-            <h2>{{name}}</h2>
+            <h4 class="fauxButton">SELECTED PROJECT</h4>
+            <h2>{{projecttitle}}</h2>
             <p class="colorText">{{address}}<p>
-            <p class="colorText">{{city}}{{#state}}, {{state}}{{/state}}{{#postcode}}, {{postcode}}{{/postcode}}</p>
+            <p class="colorText">{{suburb}}{{#city}}, {{city}}{{/city}}{{#postcode}} {{postcode}}{{/postcode}}</p>
+			<p>{{description}}</p>
             <ul>
-                <li><span class="category">Wifi:</span> {{wifipassword}}</li>
-                <li><span class="category">Outlets:</span> {{outlets}}</li>
-                <li><span class="category">Couch:</span> {{couch}}</li>
-                <li><span class="category">Large Table:</span> {{largetable}}</li>
-                <li><span class="category">Outdoor Seating:</span> {{outdoorseating}}</li>
-                <li><span class="category">Brewing:</span> {{brewing}}</li>
+				<li><span class="category">Created by:</span> {{createdby}}</li>
+				<li><span class="category">Also involved:</span> {{otherorgs}}</li>
+                <li><span class="category">Number of people involved:</span> {{numberofpeople}}</li>
+                <li><span class="category">Start date:</span> {{startdate}}</li>
+                <li><span class="category">Finish date:</span> {{finishdate}}</li>
+                <li><span class="category">Project duration:</span> {{duration}}</li>
+                <li><span class="category">Time taken to organise:</span> {{organisationtime}}</li>
+                <li><span class="category">Consents required:</span> {{consents}}</li>
+                <li><span class="category">Listing added by:</span> {{addedby}}</li>
             </ul>
             <ul>
-                <li><a href="https://maps.google.com/maps?q={{address}},{{city}},{{state}}" target="_blank">View in Google Maps</a></li>
-                <li><a href="http://www.yelp.com/search?find_desc={{name}}&find_loc={{city}},{{state}}" target="_blank">Find on Yelp</a></li>
+                <li><a href="https://maps.google.com/maps?q={{address}},{{suburb}},{{city}},New Zealand" target="_blank">View in Google Maps</a></li>
             </ul>
         {{/rows}}
     </script>
@@ -133,13 +159,13 @@
 
             // create geoJSON with coordinates and other
             // useful bits from the original data
-            var optionsJSON = ["name", "address", "city", "rowNumber"]
+			var optionsJSON = ["projecttitle", "address", "city", "rowNumber"]
             var geoJSON = Sheetsee.createGeoJSON(gData, optionsJSON)
 
             // create map, tilelayer (map background), markers and popups
             var map = Sheetsee.loadMap("map")
             Sheetsee.addTileLayer(map, 'examples.map-20v6611k')
-            var markerLayer = Sheetsee.addMarkerLayer(geoJSON, map, "<h2>{{ name }}</h2>")
+            var markerLayer = Sheetsee.addMarkerLayer(geoJSON, map, "<h2>{{ projecttitle }}</h2>")
 
             // find the latest spot with the most important
             // info filled in (to prevent map breaking if
@@ -176,7 +202,7 @@
                 var latestCompleteSpot = []
                 var startWithLatestRow = data.reverse()
                 startWithLatestRow.forEach(function(row){
-                    if (!row.lat || !row.long || !row.name || !row.address || !row.city || !row.state ) return
+                    if (!row.lat || !row.long || !row.projecttitle || !row.address || !row.city || !row.suburb ) return
                     else latestCompleteSpot.push(row)
                 })
                 return latestCompleteSpot[0]
@@ -196,6 +222,7 @@
                 var selectedSpot = Sheetsee.ich.selectedSpot({
                     rows: dataElement
                 })
+
                 // center the map on the selected element
                 map.panTo([dataElement[0].lat, dataElement[0].long])
                 // update the spot listing
