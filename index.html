@@ -2,7 +2,7 @@
 <!--to do:
 - add test to remove comma if no suburb?
 - check page layout - might need to rearrange to fit everything?
-- transfer info from csv to google sheet
+- fix map
 - clean up index.html and re-document
 --->
 
@@ -25,6 +25,9 @@
         <link media="screen" rel="stylesheet" type="text/css" href="css/site.css">
         <link rel="stylesheet" href="css/MarkerCluster.css" />
         <link rel="stylesheet" href="css/MarkerCluster.Default.css" />
+		
+
+
     </head>
 <body>
     <div id="wrapper">
@@ -164,7 +167,7 @@
 
             // create map, tilelayer (map background), markers and popups
             var map = Sheetsee.loadMap("map")
-            Sheetsee.addTileLayer(map, 'examples.map-20v6611k')
+            Sheetsee.addTileLayer(map, 'jenniferm.486f3e8f')  //changed 'examples.map-20v6611k' to 'jenniferm.486f3e8f'
             var markerLayer = Sheetsee.addMarkerLayer(geoJSON, map, "<h2>{{ projecttitle }}</h2>")
 
             // find the latest spot with the most important

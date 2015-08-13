@@ -1697,6 +1697,7 @@ function determineType(lineItem) {
 }
 
 module.exports.loadMap = function(mapDiv) {
+  L.mapbox.accessToken = 'pk.eyJ1IjoiamVubmlmZXJtIiwiYSI6ImE3YzM0YzMwYzExOTE0NmQ1MjE0YzZjMGM3ZTAyYmI5In0.GwVh8EIEgl3kEJNXUDDYnA';  //added back in Jennifer
   var map = L.mapbox.map(mapDiv)
   map.touchZoom.disable()
   map.doubleClickZoom.disable()
@@ -14746,7 +14747,8 @@ module.exports = function(_) {
 
     geocoder.setID = function(_) {
         util.strict(_, 'string');
-        geocoder.setURL(urlhelper.base() + _ + '/geocode/{query}.json');
+        //geocoder.setURL(urlhelper.base() + _ + "/geocode/{query}.json?access_token='pk.eyJ1IjoiamVubmlmZXJtIiwiYSI6ImE3YzM0YzMwYzExOTE0NmQ1MjE0YzZjMGM3ZTAyYmI5In0.GwVh8EIEgl3kEJNXUDDYnA'");
+		geocoder.setURL(urlhelper.base() + _ + '/geocode/{query}.json');  //this looks like the line that adds the .json, so tried replacing this line with the one above, but it didn't work - Jennifer
         return geocoder;
     };
 
