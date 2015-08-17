@@ -73,9 +73,9 @@
 
     <script id="hackSpotsTable" type="text/html">
         <table>
-			<tr><th class="tHeader">Project Title</th><th class="tHeader">Created By</th><th class="tHeader">Address</th><th class="tHeader">Suburb</th><th class="tHeader">City</th></tr>
+			<tr><th class="tHeader">Project Title</th><th class="tHeader">Address</th><th class="tHeader">Suburb</th><th class="tHeader">City</th></tr>
             {{#rows}}
-                <tr id="{{rowNumber}}" class="spotRow"><td>{{projecttitle}}</td><td>{{createdby}}</td><td>{{address}}</td><td>{{suburb}}</td><td>{{city}}</td></tr> <!-- how this works: {{projecttitle}} looks for column with that heading on the google spreadsheet (JM)-->
+                <tr id="{{rowNumber}}" class="spotRow"><td>{{projecttitle}}</td><td>{{address}}</td><td>{{suburb}}</td><td>{{city}}</td></tr> <!-- how this works: {{projecttitle}} looks for column with that heading on the google spreadsheet (JM)-->
             {{/rows}}
         </table>
     </script>
@@ -155,6 +155,7 @@
         function showInfo(gData) {
             tableOptions = {
                 "data": gData,
+				//"pagination": 10,  //added this so doesn't try to display entire list on one page, but turns out it doesn't work (displays only first 10 items, but next button does nothing...) - Jennifer
                 "tableDiv": "#hackSpotsTable",
                 "filterDiv": "#tableFilter"
             }
@@ -207,7 +208,8 @@
                 var latestCompleteSpot = []
                 var startWithLatestRow = data.reverse()
                 startWithLatestRow.forEach(function(row){
-                    if (!row.lat || !row.long || !row.projecttitle || !row.address || !row.city || !row.suburb ) return
+                    //if (!row.lat || !row.long || !row.projecttitle || !row.address || !row.city || !row.suburb ) return
+					if (!row.lat || !row.long || !row.projecttitle ) return  //changed this to make sure it shows latest row even if don't have full address
                     else latestCompleteSpot.push(row)
                 })
                 return latestCompleteSpot[0]
