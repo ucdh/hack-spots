@@ -15,6 +15,7 @@
         <script type="text/javascript" src='js/tabletop1.3.4.js'></script>
         <script type="text/javascript" src='js/sheetsee.js'></script>
         <script type="text/javascript" src='js/leaflet.markercluster.js'></script>
+		
         <link rel="shortcut icon" href="https://raw.github.com/jlord/hack-spots/master/favico.png"/>
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -25,10 +26,8 @@
         <link media="screen" rel="stylesheet" type="text/css" href="css/site.css">
         <link rel="stylesheet" href="css/MarkerCluster.css" />
         <link rel="stylesheet" href="css/MarkerCluster.Default.css" />
-		
-
-
     </head>
+    
 <body>
     <div id="wrapper">
         <h1>Transitional City Test Site</h1>
@@ -41,18 +40,15 @@
                 <li><a href="http://www.twitter.com/jllord" target="_blank">@JLLORD</a></li>
             </ul>
         </div>
-        <div class="container">
+        <div class="metadata_container">
+            <div id="map"></div>  
             <div id="rightSide">
                 <div id="latestSpot"></div>
                 <div id="selectedSpot"></div>
-            </div>
-            <div id="map"></div>
+            </div>  
+                    
         </div>
-        <div class="container">
-			<!--<div id="descriptionField"></div> tried adding this in to put the description in a better place, but can't figure out the javascript to go with it, so it doesn't work. JM-->
-            <input id="tableFilter" type="text" placeholder="filter by.."></input>
-            <span class="clear button">Clear</span> <span class="resetMap button">Reset Map</span>
-            <span class="noMatches">no matches</span>
+        <div class="container">			
             <div id="hackSpotsTable"></div>
         </div>
         <div id="info" class="container">
@@ -72,6 +68,10 @@
     </div><!-- end wrapper -->
 
     <script id="hackSpotsTable" type="text/html">
+         <input id="tableFilter" type="text" placeholder="filter by.."></input>
+            <span class="clear button">Clear</span> <span class="resetMap button">Reset Map</span>
+            <span class="noMatches">no matches</span>
+            <div id="hackSpotsTable"></div>
         <table>
 			<tr><th class="tHeader">Project Title</th><th class="tHeader">Address</th><th class="tHeader">Suburb</th><th class="tHeader">City</th></tr>
             {{#rows}}
@@ -122,7 +122,7 @@
     <script id="selectedSpot" type="text/html">
         {{#rows}}
             <h4 class="fauxButton">SELECTED PROJECT</h4>
-            <h2>{{projecttitle}}</h2>
+            <h2 class='title'>{{projecttitle}}</h2>
             <p class="colorText">{{address}}<p>
             <p class="colorText">{{suburb}}{{#city}}, {{city}}{{/city}}{{#postcode}} {{postcode}}{{/postcode}}</p>
 			<p>{{description}}</p>
@@ -170,8 +170,8 @@
 
             // create map, tilelayer (map background), markers and popups
             var map = Sheetsee.loadMap("map")
-            Sheetsee.addTileLayer(map, 'jenniferm.486f3e8f')  //changed 'examples.map-20v6611k' to 'jenniferm.486f3e8f'
-            var markerLayer = Sheetsee.addMarkerLayer(geoJSON, map, "<h2>{{ projecttitle }}</h2>")
+            Sheetsee.addTileLayer(map, 'http://api.tiles.mapbox.com/v4/jenniferm.486f3e8f.json?access_token=pk.eyJ1IjoiamVubmlmZXJtIiwiYSI6ImE3YzM0YzMwYzExOTE0NmQ1MjE0YzZjMGM3ZTAyYmI5In0.GwVh8EIEgl3kEJNXUDDYnA')
+            var markerLayer = Sheetsee.addMarkerLayer(geoJSON, map, "<h2 class='title'>{{ projecttitle }}</h2>")
 
             // find the latest spot with the most important
             // info filled in (to prevent map breaking if
@@ -260,7 +260,11 @@
         $(document).on('keyup', '#tableFilter', function() {
             window.location.hash = $(this).val()
             $('.spotRow').first().click()
+            
         })
+	
+		
+	
     </script>
 </body>
 </html>
