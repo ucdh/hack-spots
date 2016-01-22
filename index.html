@@ -30,10 +30,10 @@
     
 <body>
     <div id="wrapper">
-        <h1>Transitional City Test Site</h1>
+        <h1>Transitional City Map</h1>
         <div>
             <ul class="nav">
-                <li><strong>This is an exciting messagy sort of thing</strong></li>
+                <li><strong>A map of transitional projects in Canterbury</strong></li>
                 <li><a href="#info">INFO</a> -</li>
                 <li><a href="http://jlord.github.com/sheetsee.js" target="_blank">POWERED BY SHEETSEE.JS</a> -</li>
                 <li><a href="http://www.github.com/jlord/hack-spots" target="_blank">GITHUB</a> -</li>
@@ -67,20 +67,21 @@
         </div>
     </div><!-- end wrapper -->
 
+	<!--creates table of all entries-->
     <script id="hackSpotsTable" type="text/html">
          <input id="tableFilter" type="text" placeholder="filter by.."></input>
             <span class="clear button">Clear</span> <span class="resetMap button">Reset Map</span>
             <span class="noMatches">no matches</span>
             <div id="hackSpotsTable"></div>
         <table>
-			<tr><th class="tHeader">Project Title</th><th class="tHeader">Address</th><th class="tHeader">Suburb</th><th class="tHeader">City</th></tr>
+			<tr><th class="tHeader">Project Title</th><th>Created By</th><th>Start Date</th><th class="tHeader">Address</th><th class="tHeader">Suburb</th><th class="tHeader">City</th></tr>
             {{#rows}}
-                <tr id="{{rowNumber}}" class="spotRow"><td>{{projecttitle}}</td><td>{{address}}</td><td>{{suburb}}</td><td>{{city}}</td></tr> <!-- how this works: {{projecttitle}} looks for column with that heading on the google spreadsheet (JM)-->
+                <tr id="{{rowNumber}}" class="spotRow"><td>{{projecttitle}}</td><td>{{createdby}}</td><td>{{startdate}}</td><td>{{address}}</td><td>{{suburb}}</td><td>{{city}}</td></tr> <!-- how this works: {{projecttitle}} looks for column with that heading on the google spreadsheet (JM)-->
             {{/rows}}
         </table>
     </script>
 	
-
+	<!--creates sidebar entry for the most recently updated project (used if no project has been selected)-->
     <script id="latestSpot" type="text/html">
         {{#rows}}
             <h4 class="fauxButton">RECENTLY UPDATED</h4>
@@ -102,6 +103,7 @@
                 <li><span class="category">Consents required:</span> {{consents}}</li>
             </ul>
             <ul>
+				<li><a href="https://quakestudies.canterbury.ac.nz/store/object/{{qsrobject}}" target="_blank">View in QuakeStudies</a></li> <!--slight problem: if there's a project without an object in QuakeStudies (currently only 'The Great Depression'), will go to list of all QS objects instead.  This could become a problem as more projects are added.  Probably need to do a clever if statement somewhere to protect against that...-->
                 <li><a href="https://maps.google.com/maps?q={{address}},{{suburb}},{{city}},New Zealand" target="_blank">View in Google Maps</a></li>
                 
             </ul>
@@ -119,6 +121,7 @@
         <p><strong><span class="red-text">{{numberOfSpots}}</span> transitional city projects located</p>
     </script>
 
+	<!--creates sidebar entry for selected project-->
     <script id="selectedSpot" type="text/html">
         {{#rows}}
             <h4 class="fauxButton">SELECTED PROJECT</h4>
@@ -139,7 +142,8 @@
                 <li><span class="category">Consents required:</span> {{consents}}</li>
             </ul>
             <ul>
-                <li><a href="https://maps.google.com/maps?q={{address}},{{suburb}},{{city}},New Zealand" target="_blank">View in Google Maps</a></li>
+                <li><a href="https://quakestudies.canterbury.ac.nz/store/object/{{qsrobject}}" target="_blank">View in QuakeStudies</a></li>
+				<li><a href="https://maps.google.com/maps?q={{address}},{{suburb}},{{city}},New Zealand" target="_blank">View in Google Maps</a></li>
             </ul>
         {{/rows}}
     </script>
