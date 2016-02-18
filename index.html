@@ -1,8 +1,6 @@
 <html>
 <!--to do:
 - add test to remove comma if no suburb?
-- check page layout - might need to rearrange to fit everything?
-- fix map
 - clean up index.html and re-document
 --->
 
@@ -73,9 +71,9 @@
             <span class="noMatches">no matches</span>
             <div id="hackSpotsTable"></div>
         <table>
-			<tr><th class="tHeader">Project Title</th><th class="tHeader">Address</th><th class="tHeader">Suburb</th><th class="tHeader">City</th></tr>
+			<tr><th class="tHeader">Project Title</th><th class="tHeader">Created By</th><th class="tHeader">Address</th><th class="tHeader">Suburb</th><th class="tHeader">City</th><th>View in QuakeStudies</th><th>View in Google Maps</th></tr>
             {{#rows}}
-                <tr id="{{rowNumber}}" class="spotRow"><td>{{projecttitle}}</td><td>{{address}}</td><td>{{suburb}}</td><td>{{city}}</td></tr> <!-- how this works: {{projecttitle}} looks for column with that heading on the google spreadsheet (JM)-->
+                <tr id="{{rowNumber}}" class="spotRow"><td>{{projecttitle}}</td><td>{{createdby}}</td><td>{{address}}</td><td>{{suburb}}</td><td>{{city}}</td><td align = 'center'><a href="https://quakestudies.canterbury.ac.nz/store/object/{{qsrobject}}" target="_blank">Link</a></td><td><a href="https://maps.google.com/maps?q={{address}},{{suburb}},{{city}},New Zealand" target="_blank">Map</a></td></tr> <!-- how this works: {{projecttitle}} looks for column with that heading on the google spreadsheet (JM)-->
             {{/rows}}
         </table>
     </script>
@@ -103,7 +101,7 @@
             </ul>
             <ul>
 				<li><a href="https://quakestudies.canterbury.ac.nz/store/object/{{qsrobject}}" target="_blank">View in QuakeStudies</a></li> <!--slight problem: if there's a project without an object in QuakeStudies (currently only 'The Great Depression'), will go to list of all QS objects instead.  This could become a problem as more projects are added.  Probably need to do a clever if statement somewhere to protect against that...-->
-                <li><a href="https://maps.google.com/maps?q={{address}},{{suburb}},{{city}},New Zealand" target="_blank">View in Google Maps</a></li>
+                
                 
             </ul>
         {{/rows}}
@@ -138,15 +136,17 @@
                 <li><span class="category">Time taken to organise:</span> {{organisationtime}}</li>
 				<li><span class="category">Project cost:</span> {{projectcost}}</li>
                 <li><span class="category">Consents required:</span> {{consents}}</li>
+
             </ul>
             <ul>
                 <li><a href="https://quakestudies.canterbury.ac.nz/store/object/{{qsrobject}}" target="_blank">View in QuakeStudies</a></li>
-				<li><a href="https://maps.google.com/maps?q={{address}},{{suburb}},{{city}},New Zealand" target="_blank">View in Google Maps</a></li>
+			
             </ul>
         {{/rows}}
     </script>
 
     <script type="text/javascript">
+		
         document.addEventListener('DOMContentLoaded', function() {
             var gData
 			var URL = "1Y1cyBg-nJrQCax9kgX7LWYHjoZnrSMjWgrlhK-iNn78"
